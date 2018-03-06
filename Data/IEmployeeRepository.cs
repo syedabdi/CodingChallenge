@@ -12,7 +12,7 @@ namespace Data
     public interface IEmployeeRepository
     {
         IEnumerable<EmployeeDetails> GetAllEmployees();
-        Task<EmployeeDetails> Search(SearchCriteria query);
+        EmployeeDetails Search(SearchCriteria query);
         int Add(AddEmployee command);
     }
 }

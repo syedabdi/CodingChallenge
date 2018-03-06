@@ -32,8 +32,8 @@ namespace Api.Controllers
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Failed to get products: {ex}");
-                return BadRequest("Failed to get products");
+                _logger.LogError($"Failed to get Employee: {ex}");
+                return BadRequest("Failed to get Employee");
             }
         }
 
@@ -47,41 +47,23 @@ namespace Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get orders: {ex}");
-                return BadRequest("Failed to get orders");
+                _logger.LogError($"Failed to get Employee: {ex}");
+                return BadRequest("Failed to get Employee");
             }
         }
 
         [HttpPost]
         [Route("AddNewEmployee")]
-        public IActionResult AddNewEmployee([FromBody]SearchCriteria srch)
+        public IActionResult AddNewEmployee([FromBody]AddEmployee add)
         {
-
-            var emp = new DTO.Commands.AddEmployee
+           try
             {
-                Employee = new DTO.Commands.Info
-                {
-                    FirstName ="Adam",
-                    LastName ="John"
-                },
-                Dependents =  new List<DTO.Commands.Info>
-                {
-                    new DTO.Commands.Info
-                    {
-                     FirstName = "John",
-                     LastName = "Rambdo"
-                    }
-                }
-            };
-
-            try
-            {
-                return  Ok(_repository.Add(emp));
+                return  Ok(_repository.Add(add));
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get orders: {ex}");
-                return BadRequest("Failed to get orders");
+                _logger.LogError($"Failed to save Employee: {ex}");
+                return BadRequest("Failed to save Employee");
             }
         }
 

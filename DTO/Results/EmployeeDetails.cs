@@ -9,6 +9,8 @@ namespace DTO.Results
         public int Id { get; set; }
         public bool NameDiscountFlag { get; set; }
         public double PayCheckAfterDeductions { get; set; }
+        public double EmployeePremium { get; set; }
+        public double DependentsPremium { get; set; }
         public IEnumerable<Info> Dependents { get; set; }
     }
 }

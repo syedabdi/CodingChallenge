@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Test
@@ -23,11 +24,13 @@ namespace Test
                 {
                     new DTO.Commands.Info
                     {
-                     FirstName = "John",
-                     LastName = "Rambbo"
+                     FirstName = "",
+                     LastName = ""
                     }
-                }
+                }.ToList()
             };
+
+            emp.Dependents = emp.Dependents.Where(x => x.FirstName != "");
 
             var test = 0;
             using (_context)

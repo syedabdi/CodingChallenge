@@ -1,36 +1,21 @@
-using AppSettings;
-using Data;
-using DTO.Queries;
 using DTO.Results;
-using Fns;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using static Microsoft.AspNetCore.Hosting.Internal.HostingApplication;
 
 namespace Test
 {
 
-  
+
     [TestClass]
     public class UnitTest1
     {
         private Type _magicType;
-        private EmployeeHelper _empHelper;
 
         [TestInitialize]
         public void Setup()
         {
-            _empHelper = new EmployeeHelper();
             _magicType = GetTypes("Fns.EmployeeHelper");
         }
 
@@ -52,6 +37,8 @@ namespace Test
             Assert.AreEqual(result, expected);
 
         }
+
+     
 
         [TestMethod]
         public void TestGetDependendentPremium()

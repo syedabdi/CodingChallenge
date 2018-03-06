@@ -5,7 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="template.tst" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Entities\Entities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="CompanyRules.ts">
+      <CustomToolNamespace>Results\CompanyRules.cs</CustomToolNamespace>
+    </None>
+    <None Update="EmployeeDetails.ts">
+      <CustomToolNamespace>Results\EmployeeDetails.cs</CustomToolNamespace>
+    </None>
+    <None Update="SearchCriteria.ts">
+      <CustomToolNamespace>Queries\SearchCriteria.cs</CustomToolNamespace>
+    </None>
   </ItemGroup>
 
 </Project>

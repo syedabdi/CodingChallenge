@@ -31,6 +31,8 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
 
+
+
             services.AddMvc();
             services.AddOptions();
 
@@ -55,7 +57,11 @@ namespace Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(builder => builder
+                 .AllowAnyOrigin()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()
+                 .AllowCredentials());
             app.UseMvc();
 
             // Seed the database

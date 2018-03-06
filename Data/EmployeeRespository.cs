@@ -29,20 +29,20 @@ namespace Data
 
 
        // used async call
-        public async Task<EmployeeDetails> Search(SearchCriteria query)
+        public EmployeeDetails Search(SearchCriteria query)
         {
             try
             {
                 _logger.LogInformation("Search was called");
 
-                var result =  await _ctx.Employees
+                var result =  _ctx.Employees
                          .Include(emp => emp.Dependents)
-                        .FirstOrDefaultAsync(emp => emp.Id == query.Id);            
-                return result == null ? null : new EmployeeHelper().ConverttoEmployeeDetail(result, _rules.Value);
+                         .FirstOrDefault(emp => emp.Id == query.Id);            
+                return result == null ? null : EmployeeHelper.ConverttoEmployeeDetail(result, _rules.Value);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to get all Employee: {ex}");
+                _logger.LogError($"Failed to get particular Employee: {ex}");
                 return null;
             }
 
@@ -55,7 +55,7 @@ namespace Data
                _logger.LogInformation("GetAllEmployees was called");
              return _ctx.Employees
                             .Include(e => e.Dependents)
-                            .Select(e => new EmployeeHelper().ConverttoEmployeeDetail(e, _rules.Value))
+                            .Select(e => EmployeeHelper.ConverttoEmployeeDetail(e, _rules.Value))
                             .ToList();
             }
             catch (Exception ex)

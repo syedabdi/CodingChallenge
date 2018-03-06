@@ -12,13 +12,9 @@ namespace Fns
     //Buisness Logic come here. It seperate our DAL layer from other layer so we can easily make any modification.
     //We can also create an Interface here and inject it inside our controllers
 
-    public class EmployeeHelper
+    public static class EmployeeHelper
     {
-        public EmployeeHelper()
-        {
-        }
-
-        public EmployeeDetails ConverttoEmployeeDetail(Employee rec, CompanyRules rules)
+        public static EmployeeDetails ConverttoEmployeeDetail(Employee rec, CompanyRules rules)
         {
             var result = new EmployeeDetails();
                 result = new EmployeeDetails
@@ -35,7 +31,9 @@ namespace Fns
             };
 
             result.NameDiscountFlag = GetNameDiscountFlag(result, rules.NameDiscount);
-            result.PayCheckAfterDeductions = GetTotalPayCheckAfterDeductions(result.NameDiscountFlag, rules, result.Dependents.Count());
+            result.EmployeePremium = getEmployeePremium(rules.EmployeeCost, rules.TotalPayCheck);
+            result.DependentsPremium = result.Dependents.Count() > 0 ? (GetDependendentPremium(rules.DependentCost, rules.TotalPayCheck, result.Dependents.Count())) : 0;
+            result.PayCheckAfterDeductions = GetTotalPayCheckAfterDeductions(result.NameDiscountFlag, rules, result.EmployeePremium, result.DependentsPremium);
 
             return result;
         }
@@ -45,17 +43,16 @@ namespace Fns
             return (rec.FirstName.ToLower().StartsWith(name) || rec.Dependents.Any(x => x.FirstName.ToLower().StartsWith(name))) == true ? true : false;
         }
 
-        public static double GetTotalPayCheckAfterDeductions(bool discountFlag, CompanyRules rules, int totalDependents = 0)
+        private static double getEmployeePremium(double employeeCost, int totalPayCheck)
+        {
+            return (employeeCost / totalPayCheck);
+        }
+
+        public static double GetTotalPayCheckAfterDeductions(bool discountFlag, CompanyRules rules, double employeePreimium, double dependentsPremium)
         {
             //if it take more then two steps make a seperate function for that
-
-            var employeePreimium = rules.EmployeeCost / rules.TotalPayCheck;
-
-            var dependentsPremium = totalDependents > 0 ? (GetDependendentPremium(rules.DependentCost,rules.TotalPayCheck,totalDependents)) : 0;
-
             var totalPreimium = employeePreimium + dependentsPremium;
             totalPreimium = discountFlag ? GetDiscount(rules.NameDiscountPercentage, totalPreimium) : totalPreimium;
-
             return rules.PayCheck - totalPreimium;  
         }
 
